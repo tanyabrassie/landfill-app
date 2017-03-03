@@ -10,6 +10,7 @@ var ejs = require('ejs');
 var index = require('./routes/index');
 var search = require('./routes/search');
 var users = require('./routes/users');
+var filter = require('./routes/filter');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/', search);
+app.use('/', filter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -46,7 +48,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('pages/error');
 });
 
 module.exports = app;

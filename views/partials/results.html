@@ -1,0 +1,40 @@
+<div class="results">
+	<h1><%=clientCriteria.stateFullName %> Landfills</h1>
+	<span><%=clientResults.length %> results available</span> 
+	<button id="filter-button">Filter</button>
+	
+
+	<div class="filter-popup">
+		<strong>Let's filter these suckers! ha HAA!</strong>
+		<div class="filter-error">
+		Warning: Tsk tsk. You didn't enter a correct year range</div>
+		<form name="filterForm" id="filter-form" action="/filter" method="POST">
+			<div>
+			<strong>Landfills open X years</strong>
+			<label>From</label><input id="yearStart" type="number" name="yearStart"><label>To</label><input  id="yearEnd" type="number" name="yearEnd">
+
+			</div>
+
+		<input type="submit" id="filter-apply" value="Apply Filter">
+		</form>
+	</div>
+	
+
+
+	<ol>
+		<%clientResults.forEach(function(result){ %>
+			<li class="result__item">
+				<ul class="result__item___data">
+					<li><strong> <%= result['Landfill Name'] %> </strong></li>
+					<li> <%= result['Physical Address'] %> <%= result['State'] %> <%= result['Zip Code'] %></li>
+					<li><%= result['LFG Collection System In Place?'] %></li>
+					<li>Year Opened: <%= result['Year Landfill Opened'] %></li>
+					<li>Closing Date: <%= result['Landfill Closure Year'] %></li>
+					<li>Ownership Type: <%= result['Ownership Type'] %></li>
+					<li>Waste as of <%= result['Waste in Place Year'] %> (in Tons): <%= result['Waste in Place (tons)'] %></li>
+				</ul>
+			</li><br>	
+		<% }); %>
+
+	</ol>
+</div>

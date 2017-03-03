@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --debug ./bin/www"
+    "start": "node --debug ./bin/www",
+    "watch-sass": "node-sass -w sass/app.scss public/stylesheets/style.css"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
