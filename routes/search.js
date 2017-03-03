@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var dataReader = require('../helpers/dataReader');
+var filterFunctions = require('../helpers/filterFunctions');
 
 
 
@@ -98,20 +99,13 @@ router.post('/search', function(req, res, next){
 
 	//call the data reader function and give it another function to use once the data is read
 	//in this case, i've defined a processDataFn which fill filter the data once it's finished
-	dataReader.getData(processDataFn);
+	dataReader.getData(filterAndDisplay);
 
-	function processDataFn (landfillArray){
+	function filterAndDisplay(landfillArray){
 
 
 		//filter the data based on user criteria and store them in search results
-		var searchResults = landfillArray.filter(function (landFill){
-			if (postData.status.length > 1) {
-				return landFill.State == postData.state && landFill['Current Landfill Status'].toLowerCase() == postData.status;
-			}
-
-		  	return landFill.State == postData.state;
-
-		});
+		var searchResults = filterFunctions.stateStatusFilter(landfillArray, postData);
 
 		//
 		console.log(searchResults);

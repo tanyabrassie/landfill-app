@@ -9,7 +9,6 @@ var ejs = require('ejs');
 
 var index = require('./routes/index');
 var search = require('./routes/search');
-var users = require('./routes/users');
 var filter = require('./routes/filter');
 
 var app = express();
@@ -29,7 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/', search);
 app.use('/', filter);
 
