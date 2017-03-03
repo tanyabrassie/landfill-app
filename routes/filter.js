@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var dataReader = require('../helpers/dataReader');
-
+var filterFunctions = require('../helpers/filterFunctions');
 
 
 
@@ -10,20 +10,23 @@ router.post('/filter', function (req, res, next) {
 
 	var filterData = {
 		yearStart: req.body.yearStart,
-		yearEnd: req.body.yearEnd
+		yearEnd: req.body.yearEnd,
+		status: req.body.status,
+		state: req.body.state
 	}
 
 	var startRange = parseInt(filterData.yearStart);
 	var endRange = parseInt(filterData.yearEnd);
 
-	dataReader.getData(filterByDateOpenFn);
+	dataReader.getData(filterAndDisplay);
 
-	function filterByDateOpenFn(landfillArray) {
+	
+	function filterAndDisplay(landfillArray) {
 
-		var filteredResults = landfillArray.filter(function(landFill){
-			return landFill['Year Landfill Opened'] >= startRange && landFill['Year Landfill Opened'] <= endRange;
-		});
+		var searchResults = filterFunctions.stateStatusFilter(landfillArray, filterData);
 
+		var filteredResults = filterFunctions.yearOpenedFilter(searchResults, filterData.yearStart, filterData.yearEnd);
+		
 		console.log(filteredResults);
 		res.send(filteredResults);
 	}	

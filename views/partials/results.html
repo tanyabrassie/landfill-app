@@ -11,7 +11,13 @@
 		<form name="filterForm" id="filter-form" action="/filter" method="POST">
 			<div>
 			<strong>Landfills open X years</strong>
-			<label>From</label><input id="yearStart" type="number" name="yearStart"><label>To</label><input  id="yearEnd" type="number" name="yearEnd">
+			<label>From</label><input id="yearStart" type="number" name="yearStart">
+			<label>To</label><input  id="yearEnd" type="number" name="yearEnd">
+			<label>Status</label><input  id="state" type="hidden" name="status" value="<%=clientCriteria.status %>">
+			<label>State</label><input  id="status" type="hidden" name="state" value="<%=clientCriteria.state %>">
+
+
+
 
 			</div>
 
