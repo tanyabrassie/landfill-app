@@ -6,6 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var ejs = require('ejs');
+var MongoClient = require('mongodb').MongoClient;
+var dataReader = require('./helpers/dataReader');
+
 
 var index = require('./routes/index');
 var search = require('./routes/search');
@@ -48,5 +51,96 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('pages/error');
 });
+
+// // Connection URL
+// var url = 'mongodb://localhost:27017/landfilldata';
+
+// // Use connect method to connect to the server
+// MongoClient.connect(url, function(err, db) {
+//   console.log("Connected correctly to server");
+
+
+//   db.collection('landfilldata').count({})
+//   	.then(function(numItems) {
+//   		console.log(numItems);
+//   	});
+//   //var collection = db.collection('landfilldata');
+
+//   	// findDocuments(db, function() {
+//    //    db.close();
+//    //  });
+
+//    // countDocuments(db, function() {
+//    // 		db.close();
+//    // });
+ 
+//     // insertDocuments(db, function() {
+//     //   db.close();
+//     // });
+// });
+
+// var countDocuments = function(db, callback) {
+// 	var collection = db.collection('landfilldata');
+// 	var dbCount = collection.count({});
+// 	console.log("this is working...");
+// 	console.log(dbCount);
+// }
+
+// var findDocuments = function(db, callback) {
+//   // Get the documents collection
+//   var collection = db.collection('landfilldata');
+//   // Find some documents
+//   // collection.remove({});
+//   collection.find({}).toArray(function(err, docs) {
+//     console.log("Found the following records");
+//     console.log(docs)
+//     callback(docs);
+//   });
+// }
+
+// var insertDocuments = function(db, callback) {
+ 
+// 	var landfillArray = [];
+
+
+// 	fs.readFile(__dirname + '/landfill-data.json', 'utf8', function(err,data){
+	  		
+//   		var rawData = JSON.parse(data);
+
+// 	  	//grab the rawData and reformat it
+// 		var metaDataArray = rawData[0];
+		
+
+// 		rawData.slice(1).forEach(function(landFill){
+// 			landfillObject = {};
+
+// 			landFill.forEach(function(arrayItem, i){
+// 				landfillObject[metaDataArray[i]] = arrayItem;
+
+// 			});
+
+// 			landfillArray.push(landfillObject);
+
+// 		});
+
+// 		var collection = db.collection('landfilldata');
+
+// 			landfillArray.forEach(function(landfill){
+// 		  	 // Insert some documents
+// 			collection.insert(landfill, function(err, result) {
+// 		    // assert.equal(err, null);
+// 		    // assert.equal(3, result.result.n);
+// 		    // assert.equal(3, result.ops.length);
+// 		    console.log("Inserted 3 documents into the collection");
+// 		    callback(result);
+// 		  	});
+
+// 		});
+
+// 	});
+
+// }
+
+		
 
 module.exports = app;
