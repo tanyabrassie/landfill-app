@@ -11,35 +11,40 @@ var db = require('../helpers/db');
 router.post('/filter', function (req, res, next) {
 
 	//collect filter data
-	var filterData = {
+	var postData = {
 		yearStart: req.body.yearStart,
 		yearEnd: req.body.yearEnd,
 		status: req.body.status,
-		state: req.body.state
+		state: req.body.state,
+		stateFullName: req.body.stateFull
 	}
 
 	//convert year data to Integer
-	var startRange = parseInt(filterData.yearStart);
-	var endRange = parseInt(filterData.yearEnd);
+	var startRange = parseInt(postData.yearStart);
+	var endRange = parseInt(postData.yearEnd);
 
 	//get the collection	
 	db.get().collection('landfilldata', function (err, collection) {
 			
-			collection.find({'State': filterData.state, 'Current Landfill Status': filterData.status}).toArray(function (err, results){
+		collection.find({'State': postData.state, 'Current Landfill Status': postData.status}).toArray(function (err, filteredArray){
 
-				results.forEach(function(item){
+			filteredArray.forEach(function(item){
 
-					item['Year Landfill Opened'] = parseInt(item['Year Landfill Opened']);
-				});
+				item['Year Landfill Opened'] = parseInt(item['Year Landfill Opened']);
+			});
 
-				var filteredResults = results.filter(function(landfill) {
-					return landfill['Year Landfill Opened'] >= startRange && landfill['Year Landfill Opened'] <= endRange;
-				});
+			var results = filteredArray.filter(function(landfill) {
+				return landfill['Year Landfill Opened'] >= startRange && landfill['Year Landfill Opened'] <= endRange;
+			});
 
 
-				console.log(filteredResults);
-				res.send(filteredResults);					
+			res.render('pages/results', {
+				clientResults: results,
+				clientCriteria: postData
 			});	
+
+		});
+
 	});		
 
 	// dataReader.getData(filterAndDisplay);
